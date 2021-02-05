@@ -13,10 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hindicoder.retrofitdemoinjava.R;
-import com.hindicoder.retrofitdemoinjava.RetrofitClient;
-import com.hindicoder.retrofitdemoinjava.util.Constants;
-
-import java.util.regex.Pattern;
+import com.hindicoder.retrofitdemoinjava.retrofit.RetrofitClient;
+import com.hindicoder.retrofitdemoinjava.apiresponse.RegisterResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,13 +40,12 @@ public class MainActivity extends AppCompatActivity {
         loginHere.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,LoginActivity.class));
-                finish();
+                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
             }
         });
-
     }
-
     private void registerUser() {
         String email = emailET.getText().toString();
         String password = passET.getText().toString();
@@ -88,15 +85,19 @@ public class MainActivity extends AppCompatActivity {
         Call<RegisterResponse> call = RetrofitClient.getInstance().getApi().register(name,email,password);
         call.enqueue(new Callback<RegisterResponse>() {
 
-
             @Override
             public void onResponse(@NonNull Call<RegisterResponse> call,@NonNull Response<RegisterResponse> response) {
                 RegisterResponse registerResponse= response.body();
                 if (response.isSuccessful())
                 {
-                    Toast.makeText(MainActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    if (registerResponse != null) {
+                        Toast.makeText(MainActivity.this, registerResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }else {
-                    Toast.makeText(MainActivity.this, registerResponse.getResponsecode(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, registerResponse != null ? registerResponse.getResponsecode() : null, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -105,9 +106,6 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, t.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
     }
 
     private void init() {

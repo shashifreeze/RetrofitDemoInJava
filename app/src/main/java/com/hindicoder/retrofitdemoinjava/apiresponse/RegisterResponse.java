@@ -1,4 +1,4 @@
-package com.hindicoder.retrofitdemoinjava.activities;
+package com.hindicoder.retrofitdemoinjava.apiresponse;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -12,18 +12,8 @@ public class RegisterResponse {
     @Expose
     private String message;
 
-    /**
-     * No args constructor for use in serialization
-     *
-     */
     public RegisterResponse() {
     }
-
-    /**
-     *
-     * @param responsecode
-     * @param message
-     */
     public RegisterResponse(String responsecode, String message) {
         super();
         this.responsecode = responsecode;

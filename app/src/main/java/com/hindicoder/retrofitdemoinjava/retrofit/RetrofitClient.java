@@ -1,4 +1,4 @@
-package com.hindicoder.retrofitdemoinjava;
+package com.hindicoder.retrofitdemoinjava.retrofit;
 
 import com.hindicoder.retrofitdemoinjava.api.Api;
 
